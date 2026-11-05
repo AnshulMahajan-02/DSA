@@ -1,0 +1,47 @@
+import java.util.ArrayList;
+import java.util.List;
+
+class Solution {
+    private static final String[] KEYPAD = {
+        "",     // 0
+        "",     // 1
+        "abc",  // 2
+        "def",  // 3
+        "ghi",  // 4
+        "jkl",  // 5
+        "mno",  // 6
+        "pqrs", // 7
+        "tuv",  // 8
+        "wxyz"  // 9
+    };
+
+    public List<String> letterCombinations(String digits) {
+        List<String> result = new ArrayList<>();
+        
+        // Return an empty list if the input is empty
+        if (digits == null || digits.isEmpty()) {
+            return result;
+        }
+        
+        backtrack(result, new StringBuilder(), digits, 0);
+        return result;
+    }
+
+    private void backtrack(List<String> result, StringBuilder current, String digits, int index) {
+        // Base case: if the current combination is complete
+        if (index == digits.length()) {
+            result.add(current.toString());
+            return;
+        }
+
+        // Get the letters corresponding to the current digit
+        String letters = KEYPAD[digits.charAt(index) - '0'];
+        
+        // Loop through all letters for this digit
+        for (char c : letters.toCharArray()) {
+            current.append(c);
+            backtrack(result, current, digits, index + 1);
+            current.deleteCharAt(current.length() - 1); // Backtrack
+        }
+    }
+}
